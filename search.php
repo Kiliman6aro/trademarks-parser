@@ -8,6 +8,11 @@ use HopHey\Trademarks\Http\HttpClient;
 use HopHey\Trademarks\Factories\ParserFactory;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
+$searchTerm = $argv[1] ?? null;
+if(empty($searchTerm)){
+    echo "Command: php search.php <searchTerm>\n";
+    exit;
+}
 
 $config = require_once 'config/app.php';
 $cache = new FilesystemAdapter(
@@ -26,5 +31,5 @@ $service = new TradeMarksService(
 
 $serviceProxy = new TradeMarksServiceProxy($service, $cache);
 
-$result = $serviceProxy->search('abc');
-var_dump($result['items']);
+$result = $serviceProxy->search($searchTerm);
+var_dump($result);
