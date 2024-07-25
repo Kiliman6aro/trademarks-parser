@@ -4,7 +4,7 @@ namespace HopHey\Trademarks\Http;
 
 use GuzzleHttp\Client;
 
-class Request
+class HttpClient
 {
     private Client $client;
 

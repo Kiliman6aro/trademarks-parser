@@ -5,19 +5,19 @@ namespace HopHey\Trademarks\Services;
 use HopHey\Trademarks\Contract\Factories\ParserFactoryContract;
 use HopHey\Trademarks\Contract\Http\UrlBuilderContract;
 use HopHey\Trademarks\Contract\Parsers\HtmlParserContract;
-use HopHey\Trademarks\Http\Request;
+use HopHey\Trademarks\Http\HttpClient;
 
 class TradeMarksService
 {
-    private Request $request;
+    private HttpClient $request;
     private UrlBuilderContract $urlBuilder;
     private HtmlParserContract $csrfParser;
     private HtmlParserContract $resultPageParser;
     private HtmlParserContract $tableParser;
 
     public function __construct(
-        Request $request,
-        UrlBuilderContract $urlBuilder,
+        HttpClient            $request,
+        UrlBuilderContract    $urlBuilder,
         ParserFactoryContract $factory
     ) {
         $this->request = $request;
