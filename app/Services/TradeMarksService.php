@@ -5,9 +5,10 @@ namespace HopHey\Trademarks\Services;
 use HopHey\Trademarks\Contract\Factories\ParserFactoryContract;
 use HopHey\Trademarks\Contract\Http\UrlBuilderContract;
 use HopHey\Trademarks\Contract\Parsers\HtmlParserContract;
+use HopHey\Trademarks\Contract\Services\SearchServiceContract;
 use HopHey\Trademarks\Http\HttpClient;
 
-class TradeMarksService
+class TradeMarksService implements SearchServiceContract
 {
     private HttpClient $httpClient;
     private UrlBuilderContract $urlBuilder;

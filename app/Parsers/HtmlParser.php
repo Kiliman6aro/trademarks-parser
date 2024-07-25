@@ -2,9 +2,7 @@
 
 namespace HopHey\Trademarks\Parsers;
 
-use HopHey\Trademarks\Contract\Http\UrlBuilderContract;
 use HopHey\Trademarks\Contract\Parsers\HtmlParserContract;
-use HopHey\Trademarks\Http\UrlBuilder;
 
 abstract class HtmlParser implements HtmlParserContract
 {
