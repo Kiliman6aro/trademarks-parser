@@ -32,7 +32,7 @@ class TableHtmlParser extends HtmlParser
      * @param Crawler $row
      * @return string
      */
-    function getStatus(Crawler $row): string
+    private function getStatus(Crawler $row): string
     {
         $statusElement = $row->filter($this->getConfig('status_selector'));
 
@@ -48,7 +48,7 @@ class TableHtmlParser extends HtmlParser
      * @param Crawler $row
      * @return string|null
      */
-    function getUrlLogo(Crawler $row): ?string
+    private function getUrlLogo(Crawler $row): ?string
     {
         $imgElement = $row->filter($this->getConfig('logo_selector'));
 
@@ -63,7 +63,7 @@ class TableHtmlParser extends HtmlParser
      * @param Crawler $row
      * @return string
      */
-    function getName(Crawler $row): string
+    private function getName(Crawler $row): string
     {
         return $row->filter($this->getConfig('name_selector'))->text();
     }
@@ -72,7 +72,7 @@ class TableHtmlParser extends HtmlParser
      * @param Crawler $row
      * @return string
      */
-    function getClass(Crawler $row): string
+    private function getClass(Crawler $row): string
     {
         return $row->filter($this->getConfig('class_selector'))->text();
     }
@@ -81,7 +81,7 @@ class TableHtmlParser extends HtmlParser
      * @param Crawler $row
      * @return string|null
      */
-    function getViewUrl(Crawler $row): ?string
+    private function getViewUrl(Crawler $row): ?string
     {
         return $row->filter($this->getConfig('link_selector'))->attr('href');
     }

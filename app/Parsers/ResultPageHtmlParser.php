@@ -32,7 +32,7 @@ class ResultPageHtmlParser extends HtmlParser
      * @param string $linkTemplate
      * @return array
      */
-    public function linksGenerate(int $number, int $countItemsOnPage, string $linkTemplate): array
+    private function linksGenerate(int $number, int $countItemsOnPage, string $linkTemplate): array
     {
         $links = [];
         $pages = ceil($number / $countItemsOnPage);
