@@ -9,18 +9,18 @@ use HopHey\Trademarks\Http\HttpClient;
 
 class TradeMarksService
 {
-    private HttpClient $request;
+    private HttpClient $httpClient;
     private UrlBuilderContract $urlBuilder;
     private HtmlParserContract $csrfParser;
     private HtmlParserContract $resultPageParser;
     private HtmlParserContract $tableParser;
 
     public function __construct(
-        HttpClient            $request,
+        HttpClient            $httpClient,
         UrlBuilderContract    $urlBuilder,
         ParserFactoryContract $factory
     ) {
-        $this->request = $request;
+        $this->httpClient = $httpClient;
         $this->urlBuilder = $urlBuilder;
         $this->csrfParser = $factory->createCsrfParser();
         $this->resultPageParser = $factory->createResultPageParser();
@@ -29,20 +29,20 @@ class TradeMarksService
 
     public function search(string $searchTerm): array
     {
-        $mainPageHtml = $this->request->get($this->urlBuilder->toMainPage());
+        $mainPageHtml = $this->httpClient->get($this->urlBuilder->toMainPage());
         $csrfData = $this->csrfParser->parse($mainPageHtml);
 
         $searchFormParams = array_merge(
             $csrfData,
             ['wv[0]' => $searchTerm]
         );
-        $searchResultsHtml = $this->request->post($this->urlBuilder->toSearch(), $searchFormParams);
+        $searchResultsHtml = $this->httpClient->post($this->urlBuilder->toSearch(), $searchFormParams);
 
         $searchResults = $this->resultPageParser->parse($searchResultsHtml);
 
         $details = [];
         foreach ($searchResults['links'] as $link) {
-            $detailsPageHtml = $this->request->get($this->urlBuilder->buildAbsoluteUrl($link));
+            $detailsPageHtml = $this->httpClient->get($this->urlBuilder->buildAbsoluteUrl($link));
             $pageDetails = $this->tableParser->parse($detailsPageHtml);
             $details = array_merge($details, $pageDetails);
         }
