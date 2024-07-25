@@ -1,8 +1,10 @@
 <?php
 return [
-    'base_url' => 'https://search.ipaustralia.gov.au',
-    'main_page' => 'trademarks/search/advanced',
-    'search_url' => 'trademarks/search/doSearch',
+    'url' => [
+        'base_url' => 'https://search.ipaustralia.gov.au',
+        'main_page' => 'trademarks/search/advanced',
+        'search_url' => 'trademarks/search/doSearch',
+    ],
     'cache_lifetime' => 600,
     'cache_dir' => 'runtime/cache',
     'selectors' => [

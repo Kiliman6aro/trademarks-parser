@@ -4,6 +4,7 @@ namespace HopHey\Trademarks;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use HopHey\Trademarks\Contract\Http\UrlBuilderContract;
 use Symfony\Component\DomCrawler\Crawler;
 
 class TradeMarksScraper
@@ -11,19 +12,22 @@ class TradeMarksScraper
     private Client $client;
     private array $config;
 
-    public function __construct(array $config)
+    private UrlBuilderContract $urlBuilder;
+
+    public function __construct(array $config, UrlBuilderContract $urlBuilder)
     {
         $this->client = new Client([
             'cookies' => true,
             'verify' => false,
         ]);
         $this->config = $config;
+        $this->urlBuilder = $urlBuilder;
     }
 
     public function scrape(string $searchTerm): array
     {
         try {
-            $response = $this->client->get($this->config['base_url'].'/'.$this->config['main_page']);
+            $response = $this->client->get($this->urlBuilder->toMainPage());
             $html = (string) $response->getBody();
             $crawler = new Crawler($html);
 
@@ -38,7 +42,7 @@ class TradeMarksScraper
                 'wv[0]' => $searchTerm,
             ];
 
-            $response = $this->client->post($this->config['base_url'].'/'.$this->config['search_url'], [
+            $response = $this->client->post($this->urlBuilder->toSearch(), [
                 'form_params' => $formData,
             ]);
 
@@ -52,7 +56,7 @@ class TradeMarksScraper
             $crawler->filter($this->config['selectors']['pagination_links'])->each(function (Crawler $node) use (&$links) {
                 $link = $node->attr('href');
                 if (!empty($link)) {
-                    $links[] = $link;
+                    $links[] = $this->urlBuilder->buildAbsoluteUrl($link);
                 }
             });
 

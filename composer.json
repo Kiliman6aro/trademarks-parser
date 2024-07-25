@@ -9,5 +9,8 @@
     "psr-4": {
       "HopHey\\Trademarks\\": "app/"
     }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^11.2"
   }
 }

@@ -3,6 +3,7 @@
 namespace HopHey\Trademarks;
 
 use GuzzleHttp\Client;
+use HopHey\Trademarks\Contract\Http\UrlBuilderContract;
 use Symfony\Component\DomCrawler\Crawler;
 
 class TradeMarksDetailScraper
@@ -10,13 +11,16 @@ class TradeMarksDetailScraper
     private array $config;
     private Client $client;
 
-    public function __construct($config)
+    private UrlBuilderContract $urlBuilder;
+
+    public function __construct($config, UrlBuilderContract $urlBuilder)
     {
         $this->client = new Client([
             'cookies' => true,
             'verify' => false,
         ]);
         $this->config = $config;
+        $this->urlBuilder = $urlBuilder;
     }
 
     public function getDetailsFromPage($pageUrl)
@@ -99,6 +103,6 @@ class TradeMarksDetailScraper
      */
     function getDetailsUrl(Crawler $row): ?string
     {
-        return $this->config['base_url'].$row->filter('td.number a')->attr('href');
+        return $this->urlBuilder->buildAbsoluteUrl($row->filter('td.number a')->attr('href'));
     }
 }
